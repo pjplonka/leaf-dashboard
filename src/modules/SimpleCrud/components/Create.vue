@@ -37,12 +37,7 @@ export default {
     }
   },
   mounted() {
-    this.form = new Form({}, [
-      {
-        component: TextInput,
-        props: {id: 'name', label: 'Resource name', rules: {required: true, min: 3}}
-      }
-    ])
+    this.form = new Form({}, config.create.form)
   },
   methods: {
     getValidationState({dirty, validated, valid = null}) {

@@ -30,11 +30,7 @@ export default {
   data() {
     return {
       items: [],
-      fields: [
-        {'key': 'id', 'label': 'ID'},
-        {'key': 'name', 'label': 'Name'},
-        {'key': 'actions', 'label': 'Actions'},
-      ]
+      fields: config.list.fields
     }
   },
   mounted() {

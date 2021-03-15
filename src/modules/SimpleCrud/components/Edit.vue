@@ -40,12 +40,7 @@ export default {
   async mounted() {
     const resource = await ApiService.get(config.url + '/' + this.id)
 
-    this.form = new Form({}, [
-      {
-        component: 'TextInput',
-        props: {id: 'name', label: 'Name', rules: {required: true, min: 3}}
-      }
-    ])
+    this.form = new Form({}, config.edit.form)
 
     this.form.inputs = this.form.inputs.map(element => {
       element.props.initValue = resource.data[element.props.id]
