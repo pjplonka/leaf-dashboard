@@ -11,7 +11,7 @@ export default {
         form: [
             {
                 component: 'TextInput',
-                props: {id: 'name', label: 'Resource name', rules: {required: true, min: 3}}
+                props: {id: 'name', label: 'Resource name'}
             }
         ]
     },
@@ -19,7 +19,7 @@ export default {
         form: [
             {
                 component: 'TextInput',
-                props: {id: 'name', label: 'Name', rules: {required: true, min: 3}}
+                props: {id: 'name', label: 'Name'}
             }
         ]
     }

@@ -1,24 +1,23 @@
 <template>
   <b-card no-body>
-    <validation-observer ref="observer" v-slot="{ handleSubmit }">
-      <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-        <b-card-header>
-          <span>Edit resource</span>
-        </b-card-header>
-        <b-card-body>
-          <component
-              v-for="input in form.inputs"
-              :is="input.component"
-              v-bind="input.props"
-              v-on:input="updateValue"
-          />
-        </b-card-body>
-        <b-card-footer>
-          <b-button class="mr-2" type="submit" variant="primary">Submit</b-button>
-          <b-button @click="$emit('cancel-button-clicked')">Cancel</b-button>
-        </b-card-footer>
-      </b-form>
-    </validation-observer>
+    <b-form @submit.stop.prevent="submit">
+      <b-card-header>
+        <span>Edit resource</span>
+      </b-card-header>
+      <b-card-body>
+        <component
+            ref="inputs"
+            v-for="input in form.inputs"
+            :is="input.component"
+            v-bind="input.props"
+            v-on:input="updateValue"
+        />
+      </b-card-body>
+      <b-card-footer>
+        <b-button class="mr-2" type="submit" variant="primary">Submit</b-button>
+        <b-button @click="$emit('cancel-button-clicked')">Cancel</b-button>
+      </b-card-footer>
+    </b-form>
   </b-card>
 </template>
 
@@ -48,16 +47,27 @@ export default {
     })
   },
   methods: {
-    getValidationState({dirty, validated, valid = null}) {
-      return dirty || validated ? valid : null;
-    },
-    async onSubmit() {
+    async submit() {
+      this.$refs.inputs.forEach((input) => {
+        input.clearErrors()
+      })
       try {
         await ApiService.put(config.url + '/' + this.id, this.form.formData())
         this.$emit('resource-updated')
         this.toast('Resource saved.')
       } catch (error) {
-        this.toast('Something gone wrong.', 'danger')
+        if (error.response && error.response.status === 422) {
+          this.toast('Please check form errors.', 'danger')
+          for (const [key, value] of Object.entries(error.response.data.errors)) {
+            this.$refs.inputs.forEach((input) => {
+              if (input.id === key) {
+                input.addError(value)
+              }
+            })
+          }
+        } else {
+          this.toast('Something gone wrong.', 'danger')
+        }
       }
     },
     updateValue(id, name) {

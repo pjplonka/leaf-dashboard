@@ -1,18 +1,12 @@
 <template>
-  <validation-provider
-      :rules="rules"
-      v-slot="validationContext"
-  >
-    <b-form-group  :label="label" >
-      <b-form-input
-          @input="$emit('input', id, value)"
-          v-model="value"
-          :state="getValidationState(validationContext)"
-      ></b-form-input>
-      <b-form-invalid-feedback >{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-      <b-form-text v-if="hint" >{{ hint }}</b-form-text>
-    </b-form-group>
-  </validation-provider>
+  <b-form-group :label="label">
+    <b-form-input
+        @input="$emit('input', id, value)"
+        v-model="value"
+    ></b-form-input>
+    <span class="errors">{{ errors[0] }}</span>
+    <b-form-text v-if="hint">{{ hint }}</b-form-text>
+  </b-form-group>
 </template>
 
 <script>
@@ -33,13 +27,21 @@ export default {
     },
     rules: {
       type: Object,
-      default() {return {}}
+      default() {
+        return {}
+      }
     },
     initValue: null
   },
   data() {
     return {
       value: '',
+      errors: []
+    }
+  },
+  computed: {
+    state: function () {
+      return this.error
     }
   },
   mounted() {
@@ -49,11 +51,19 @@ export default {
   methods: {
     getValidationState({dirty, validated, valid = null}) {
       return dirty || validated ? valid : null;
+    },
+    addError(errors) {
+      this.errors = errors
+    },
+    clearErrors() {
+      this.errors = []
     }
   }
 }
 </script>
-
 <style scoped>
-
+.errors {
+  font-size: 80%;
+  color: red;
+}
 </style>
