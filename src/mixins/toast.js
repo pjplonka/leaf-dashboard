@@ -1,10 +1,15 @@
 export default {
     methods: {
-        toast(message) {
+        toast(message, variant = 'success') {
+            let title = 'Success!'
+            if (variant === 'danger') {
+                title = 'Problem!'
+            }
+
             this.$root.$bvToast.toast(message, {
-                title: 'Success!',
+                title: title,
                 autoHideDelay: 5000,
-                variant: 'success',
+                variant: variant,
                 static: true,
             })
         }
