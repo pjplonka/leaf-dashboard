@@ -1,23 +1,67 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+
+    <div class="wrapper">
+
+      <sidebar></sidebar>
+
+      <main class="main">
+        <div class="top">
+          ICON
+        </div>
+        <div class="content" style="padding: 25px 0;">
+          <router-view/>
+        </div>
+      </main>
     </div>
-    <router-view/>
   </div>
 </template>
 
+<script>
+import Sidebar from "@/components/Sidebar";
+
+export default {
+  components: {Sidebar}
+}
+</script>
+
 <style lang="scss">
+
+$primary: #399bff;
+$secondary: #e8e8e8;
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .wrapper {
+    display: flex;
+    background-color: #f5f7fb;
+    min-height: 600px;
+
+    .main {
+
+      .top {
+        height: 65px;
+        text-align: center;
+        line-height: 65px;
+        background-color: aliceblue;
+      }
+
+      width: 100%;
+    }
+  }
 }
 
 #nav {
+  text-align: center;
   padding: 30px;
 
   a {
@@ -27,6 +71,31 @@
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.card {
+  border:none;
+  border-radius: 0;
+
+  .card-header {
+    border-bottom: 1px solid #eeeeee;
+    background-color: white;
+    padding: 1.25rem
+  }
+
+  .card-body {
+
+  }
+
+  .card-footer {
+    border-top: 1px solid #eeeeee;
+    background-color: white;
+    padding: 1.25rem
   }
 }
 </style>
