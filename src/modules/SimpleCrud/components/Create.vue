@@ -2,7 +2,7 @@
   <b-card no-body>
     <b-form @submit.stop.prevent="submit">
       <b-card-header>
-        <span>Create new resource</span>
+        <span>{{ config.labels.title }}</span>
       </b-card-header>
       <b-card-body>
         <component
@@ -32,6 +32,7 @@ export default {
   components: {TextInput},
   data() {
     return {
+      config: config.create,
       form: new Form()
     }
   },

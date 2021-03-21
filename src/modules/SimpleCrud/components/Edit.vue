@@ -2,7 +2,7 @@
   <b-card no-body>
     <b-form @submit.stop.prevent="submit">
       <b-card-header>
-        <span>Edit resource</span>
+        <span>{{ config.labels.title }}</span>
       </b-card-header>
       <b-card-body>
         <component
@@ -33,6 +33,7 @@ export default {
   props: ['id'],
   data() {
     return {
+      config: config.edit,
       form: new Form()
     }
   },

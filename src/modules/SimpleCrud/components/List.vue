@@ -1,11 +1,11 @@
 <template>
   <b-card no-body>
     <b-card-header>
-      <span>List of resources</span>
-      <a @click="$emit('create-button-clicked')" class="float-right" style="cursor:pointer;">Add new resource</a>
+      <span>{{ config.labels.title }}</span>
+      <a @click="$emit('create-button-clicked')" class="float-right" style="cursor:pointer;">{{ config.labels.new }}</a>
     </b-card-header>
     <b-card-body>
-      <b-table borderless :items="items" :fields="fields" thStyle="{color: 'red'}">
+      <b-table borderless :items="items" :fields="config.fields" thStyle="{color: 'red'}">
         <template #cell(actions)="data">
           <span class="mr-3" v-b-tooltip.hover="{ variant: 'info' }" title="Edit">
             <b-icon-pencil class="icon pointer" @click="$emit('edit-button-clicked', data.item.id)"/>
@@ -29,8 +29,8 @@ export default {
   components: {Edit},
   data() {
     return {
+      config: config.list,
       items: [],
-      fields: config.list.fields
     }
   },
   mounted() {
