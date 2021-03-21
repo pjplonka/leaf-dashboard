@@ -1,4 +1,4 @@
-import Main from "@/modules/SimpleCrud/views/Main";
+import Main from "./views/Main";
 
 export default [
   {
