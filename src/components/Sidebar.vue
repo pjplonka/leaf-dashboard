@@ -63,6 +63,9 @@ export default {
     padding: 20px 0 0 0;
     margin: 0;
     li {
+      .router-link-exact-active {
+        background-color: #272d3b;
+      }
       a {
         display: block;
         color: #f3f3f3;
