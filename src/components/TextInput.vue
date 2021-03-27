@@ -25,12 +25,6 @@ export default {
       type: String,
       default: ''
     },
-    rules: {
-      type: Object,
-      default() {
-        return {}
-      }
-    },
     initValue: null
   },
   data() {
@@ -39,19 +33,11 @@ export default {
       errors: []
     }
   },
-  computed: {
-    state: function () {
-      return this.error
-    }
-  },
   mounted() {
     this.value = this.initValue
     this.$emit('input', this.id, this.value)
   },
   methods: {
-    getValidationState({dirty, validated, valid = null}) {
-      return dirty || validated ? valid : null;
-    },
     addError(errors) {
       this.errors = errors
     },
