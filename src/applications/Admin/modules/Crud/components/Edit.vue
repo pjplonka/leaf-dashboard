@@ -17,7 +17,7 @@
 
 <script>
 import ApiService from "@/classes/ApiService";
-import TextInput from "@/common/components/form/TextInput";
+import TextInput from "@/applications/Admin/components/form/TextInput";
 
 export default {
   name: "Edit",

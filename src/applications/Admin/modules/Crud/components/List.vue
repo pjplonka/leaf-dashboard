@@ -1,11 +1,11 @@
 <template>
   <b-card no-body>
     <b-card-header>
-      <span>{{ config.labels.title }}</span>
-      <a @click="$emit('create-button-clicked')" class="float-right" style="cursor:pointer;">{{ config.labels.new }}</a>
+      <span>Resources list</span>
+      <a @click="$emit('create-button-clicked')" class="float-right" style="cursor:pointer;">Add new resource</a>
     </b-card-header>
     <b-card-body>
-      <b-table borderless :items="items" :fields="config.fields" thStyle="{color: 'red'}">
+      <b-table borderless :items="items" :fields="fields" thStyle="{color: 'red'}">
         <template #cell(actions)="data">
           <span class="mr-3" v-b-tooltip.hover="{ variant: 'info' }" title="Edit">
             <b-icon-pencil class="icon pointer" @click="$emit('edit-button-clicked', data.item.id)"/>
@@ -20,16 +20,19 @@
 </template>
 
 <script>
-import Edit from "./../components/Edit";
+import Edit from "./Edit";
 import ApiService from "@/classes/ApiService";
-import config from './../config'
 
 export default {
   name: "List",
   components: {Edit},
   data() {
     return {
-      config: config.list,
+      fields: [
+        {'key': 'id', 'label': 'ID'},
+        {'key': 'name', 'label': 'Name'},
+        {'key': 'actions', 'label': 'Actions'}
+      ],
       items: [],
     }
   },
@@ -40,7 +43,7 @@ export default {
     async remove(id) {
       if (confirm("Are you sure?")) {
         try {
-          await ApiService.delete(config.url + '/' + id)
+          await ApiService.delete('/resources/' + id)
           this.$emit('resource-created')
           this.toast('Resource removed.')
           this.load()
@@ -50,7 +53,7 @@ export default {
       }
     },
     async load() {
-      const resources = await ApiService.get(config.url);
+      const resources = await ApiService.get('/resources');
       this.items = resources.data
     }
   }
