@@ -20,7 +20,7 @@
         </router-link>
       </li>
       <li v-for="item in items">
-        <router-link :to="item.to">
+        <router-link :to="'/admin' + item.to">
           <component :is="'b-icon-' + item.icon" class="icon mr-2"></component>
           {{ item.text }}
         </router-link>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import SidebarProvider from "@/classes/SidebarProvider";
 export default {
   name: "Sidebar",
   data() {
@@ -40,7 +39,8 @@ export default {
     }
   },
   mounted() {
-    this.items = SidebarProvider.get()
+    const context = require.context('./../modules', true, /menu.js$/i);
+    this.items = context.keys().map(context).flatMap(module => module.default);
   }
 }
 </script>
@@ -62,10 +62,12 @@ export default {
     list-style: none;
     padding: 20px 0 0 0;
     margin: 0;
+
     li {
       .router-link-exact-active {
         background-color: #272d3b;
       }
+
       a {
         display: block;
         color: #f3f3f3;
@@ -76,6 +78,7 @@ export default {
           color: #aeaeae;
         }
       }
+
       a:hover {
         background-color: #262e3f;
         text-decoration: none;

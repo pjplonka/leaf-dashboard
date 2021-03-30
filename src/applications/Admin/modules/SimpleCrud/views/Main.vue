@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import List from "./../components/List";
-import Edit from "./../components/Edit";
-import Create from "./../components/Create";
+import List from "../components/List";
+import Edit from "../components/Edit";
+import Create from "../components/Create";
 
 export default {
   name: "Main",

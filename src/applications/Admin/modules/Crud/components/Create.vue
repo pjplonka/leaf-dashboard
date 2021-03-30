@@ -2,16 +2,10 @@
   <b-card no-body>
     <b-form @submit.stop.prevent="submit">
       <b-card-header>
-        <span>{{ config.labels.title }}</span>
+        <span>Create new resource</span>
       </b-card-header>
       <b-card-body>
-        <component
-            ref="inputs"
-            v-for="input in form.inputs"
-            :is="input.component"
-            v-bind="input.props"
-            v-on:input="updateValue"
-        />
+        <text-input v-model="form.name" :errors="errors.name" v-on:input="form.name = $event"></text-input>
       </b-card-body>
       <b-card-footer>
         <b-button class="mr-2" type="submit" variant="primary">Submit</b-button>
@@ -22,50 +16,36 @@
 </template>
 
 <script>
-import TextInput from "@/components/TextInput";
-import Form from "@/classes/Form";
 import ApiService from "@/classes/ApiService";
-import config from './../config'
+import TextInput from "@/applications/Admin/components/form/TextInput";
 
 export default {
   name: "Create",
   components: {TextInput},
   data() {
     return {
-      config: config.create,
-      form: new Form()
+      form: {
+        name: ''
+      },
+      errors: []
     }
-  },
-  mounted() {
-    this.form = new Form({}, config.create.form)
   },
   methods: {
     async submit() {
-      this.$refs.inputs.forEach((input) => {
-        input.clearErrors()
-      })
+      this.errors = []
       try {
-        await ApiService.post(config.url, this.form.formData())
+        await ApiService.post('/resources', this.form)
         this.$emit('resource-created')
         this.toast('Resource created.')
       } catch (error) {
         if (error.response && error.response.status === 422) {
+          this.errors = error.response.data.errors
           this.toast('Please check form errors.', 'danger')
-          for (const [key, value] of Object.entries(error.response.data.errors)) {
-            this.$refs.inputs.forEach((input) => {
-              if (input.id === key) {
-                input.addError(value)
-              }
-            })
-          }
         } else {
           this.toast('Something gone wrong.', 'danger')
         }
       }
     },
-    updateValue(id, name) {
-      this.form.updateValue(id, name)
-    }
   }
 }
 </script>

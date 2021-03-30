@@ -22,30 +22,22 @@
 </template>
 
 <script>
-import TextInput from "@/components/TextInput";
 import Form from "@/classes/Form";
 import ApiService from "@/classes/ApiService";
-import config from './../config'
+import config from '../config'
+import TextInput from "@/applications/Admin/components/form/ConfigurableTextInput";
 
 export default {
-  name: "Edit",
+  name: "Create",
   components: {TextInput},
-  props: ['id'],
   data() {
     return {
-      config: config.edit,
+      config: config.create,
       form: new Form()
     }
   },
-  async mounted() {
-    const resource = await ApiService.get(config.url + '/' + this.id)
-
-    this.form = new Form({}, config.edit.form)
-
-    this.form.inputs = this.form.inputs.map(element => {
-      element.props.initValue = resource.data[element.props.id]
-      return element
-    })
+  mounted() {
+    this.form = new Form({}, config.create.form)
   },
   methods: {
     async submit() {
@@ -53,9 +45,9 @@ export default {
         input.clearErrors()
       })
       try {
-        await ApiService.put(config.url + '/' + this.id, this.form.formData())
-        this.$emit('resource-updated')
-        this.toast('Resource saved.')
+        await ApiService.post(config.url, this.form.formData())
+        this.$emit('resource-created')
+        this.toast('Resource created.')
       } catch (error) {
         if (error.response && error.response.status === 422) {
           this.toast('Please check form errors.', 'danger')
@@ -77,3 +69,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

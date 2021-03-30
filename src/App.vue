@@ -1,27 +1,11 @@
 <template>
   <div id="app">
-
-    <div class="wrapper">
-
-      <sidebar></sidebar>
-
-      <main class="main">
-        <div class="top">
-          ICON
-        </div>
-        <div class="content" style="padding: 25px 0;">
-          <router-view/>
-        </div>
-      </main>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Sidebar from "@/components/Sidebar";
-
 export default {
-  components: {Sidebar}
 }
 </script>
 

@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
-import toast from "@/mixins/toast";
+import toast from "@/applications/Admin/mixins/toast";
 
 Vue.config.productionTip = false
 
