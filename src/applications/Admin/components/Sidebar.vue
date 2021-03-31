@@ -25,12 +25,20 @@
           {{ item.text }}
         </router-link>
       </li>
+      <li>
+        <a href="" @click.prevent="submitLogout">
+          <b-icon-door-open class="icon mr-2"/>
+          Logout
+        </a>
+      </li>
     </ul>
   </div>
 
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+
 export default {
   name: "Sidebar",
   data() {
@@ -41,6 +49,15 @@ export default {
   mounted() {
     const context = require.context('./../modules', true, /menu.js$/i);
     this.items = context.keys().map(context).flatMap(module => module.default);
+  },
+  methods: {
+    ...mapActions([
+      'logout',
+    ]),
+    submitLogout() {
+      this.logout()
+      this.$router.push('/')
+    }
   }
 }
 </script>

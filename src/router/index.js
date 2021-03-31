@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store/index'
 import adminRoutes from "@/applications/Admin/routes";
 import publicRoutes from "@/applications/Public/routes";
 
@@ -18,7 +19,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!localStorage.getItem("auth-token")) {
+        if (!store.getters.isAuthenticated) {
             next("/login");
         } else {
             next()
