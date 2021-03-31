@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import ApiService from "@/classes/ApiService";
+import { mapActions } from 'vuex'
 
 export default {
   name: "Login",
@@ -49,15 +49,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'login',
+    ]),
     async onSubmit(event) {
       event.preventDefault()
       try {
-        const response = await ApiService.post('/auth', this.form)
-        localStorage.setItem('auth-token', response.data.token)
+        await this.login(this.form)
         this.$router.push('/admin/products')
       } catch (error) {
         if (error.response.status === 401) {
-          this.error = 'Invalid data. Please try again.'
+          this.error = 'Invalid credentials. Please try again.'
+        } else {
+          console.log(error);
         }
       }
     },

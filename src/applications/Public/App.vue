@@ -8,7 +8,7 @@
             <router-link to="/login">
               Login
             </router-link>
-            or
+            |
             <router-link to="/register">
               Register
             </router-link>
@@ -17,6 +17,8 @@
             <router-link to="/admin/crud">
               Go to dashboard
             </router-link>
+            |
+            <a href="" @click.prevent="submitLogout">Logout</a>
           </div>
         </div>
       </div>
@@ -27,12 +29,20 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 
 export default {
   name: "App",
   methods: {
+    ...mapActions([
+      'logout',
+    ]),
     isAuthenticated() {
-      return !!localStorage.getItem('auth-token')
+      return this.$store.getters.isAuthenticated;
+    },
+    submitLogout() {
+      this.logout()
+      this.$router.push('/login')
     }
   }
 }

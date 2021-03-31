@@ -15,6 +15,8 @@ Vue.use(BootstrapVueIcons)
 
 Vue.mixin(toast)
 
+store.dispatch('init')
+
 new Vue({
   router,
   store,
