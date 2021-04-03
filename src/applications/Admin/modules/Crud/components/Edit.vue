@@ -2,14 +2,14 @@
   <b-card no-body>
     <b-form @submit.stop.prevent="submit">
       <b-card-header>
-        <span>Edit resource</span>
+        <span>{{ $t('amc_edit_title') }}</span>
       </b-card-header>
       <b-card-body>
         <text-input class="col-sm-6" v-model="form.name" :errors="errors.name" v-on:input="form.name = $event"></text-input>
       </b-card-body>
       <b-card-footer>
-        <b-button class="mr-2" type="submit" variant="primary">Submit</b-button>
-        <b-button @click="$emit('cancel-button-clicked')">Cancel</b-button>
+        <b-button class="mr-2" type="submit" variant="primary">{{ $t('save') }}</b-button>
+        <b-button @click="$emit('cancel-button-clicked')">{{ $t('cancel') }}</b-button>
       </b-card-footer>
     </b-form>
   </b-card>
@@ -41,13 +41,13 @@ export default {
       try {
         await ApiService.put('/resources/' + this.id, this.form)
         this.$emit('resource-updated')
-        this.toast('Resource saved.')
+        this.toast(this.$t('toast_updated'))
       } catch (error) {
         if (error.response && error.response.status === 422) {
-          this.toast('Please check form errors.', 'danger')
+          this.toast(this.$t('form_error'), 'danger')
           this.errors = error.response.data.errors
         } else {
-          this.toast('Something gone wrong.', 'danger')
+          this.toast(this.$t('error'), 'danger')
         }
       }
     }

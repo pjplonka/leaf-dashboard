@@ -1,16 +1,16 @@
 <template>
   <b-card no-body>
     <b-card-header>
-      <span>Resources list</span>
-      <a @click="$emit('create-button-clicked')" class="float-right" style="cursor:pointer;">Add new resource</a>
+      <span>{{ $t('amc_list_title') }}</span>
+      <a @click="$emit('create-button-clicked')" class="float-right" style="cursor:pointer;">{{ $t('amc_list_add_button') }}</a>
     </b-card-header>
     <b-card-body>
       <b-table borderless :items="items" :fields="fields" thStyle="{color: 'red'}">
         <template #cell(actions)="data">
-          <span class="mr-3" v-b-tooltip.hover="{ variant: 'info' }" title="Edit">
+          <span class="mr-3" v-b-tooltip.hover="{ variant: 'info' }" :title="$t('Edit')">
             <b-icon-pencil class="icon pointer" @click="$emit('edit-button-clicked', data.item.id)"/>
           </span>
-          <span class="mr-3" v-b-tooltip.hover="{ variant: 'info' }" title="Remove">
+          <span class="mr-3" v-b-tooltip.hover="{ variant: 'info' }" :title="$t('Remove')">
             <b-icon-trash class="icon pointer" @click="remove(data.item.id)"/>
           </span>
         </template>
@@ -30,8 +30,8 @@ export default {
     return {
       fields: [
         {'key': 'id', 'label': 'ID'},
-        {'key': 'name', 'label': 'Name'},
-        {'key': 'actions', 'label': 'Actions'}
+        {'key': 'name', 'label': this.$t('name').toUpperCase()},
+        {'key': 'actions', 'label': this.$t('actions').toUpperCase()}
       ],
       items: [],
     }
@@ -41,14 +41,15 @@ export default {
   },
   methods: {
     async remove(id) {
-      if (confirm("Are you sure?")) {
+      if (confirm(this.$t('are_you_sure'))) {
         try {
           await ApiService.delete('/resources/' + id)
           this.$emit('resource-created')
-          this.toast('Resource removed.')
+          this.toast(this.$t('toast_removed'))
+
           this.load()
         } catch (error) {
-          this.toast('Something gone wrong.', 'danger')
+          this.toast(this.$t('error'), 'danger')
         }
       }
     },
